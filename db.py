@@ -1,9 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
-app = Flask(__name__)
-app.config ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.sqlite3'
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+
+def init_db(app):
+    db.init_app(app)
 
 def save_msg(name, hp_no, whatsapp_id, body):
    msg = Message(name = name, hp_no = hp_no, whatsapp_id = whatsapp_id, body = body)
@@ -48,5 +49,3 @@ class User(db.Model):
    state = db.Column(db.String(50))
 
 
-with app.app_context():
-    db.create_all()

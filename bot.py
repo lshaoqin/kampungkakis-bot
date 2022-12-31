@@ -2,10 +2,14 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 import requests
 from twilio.twiml.messaging_response import MessagingResponse
-from db import save_msg, message
+from db import save_msg, edit_user, check_user, init_db
+from interactions import default_interactions
 
 app = Flask(__name__)
+app.debug=True
 app.config ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.sqlite3'
+
+init_db(app)
 
 @app.route('/bot', methods=['POST'])
 def bot():
@@ -16,28 +20,22 @@ def bot():
     hp_no = request.values.get('WaId', '')
     body = request.values.get('Body', '').lower()
     msg = save_msg(name, hp_no, whatsapp_id, body)
-    print(msg.query.all())
 
     #create response instance
     resp = MessagingResponse()
     msg = resp.message()
     responded = False
+    
+    user_state = check_user(hp_no)
 
-
-    if 'quote' in body:
-        # return a quote
-        r = requests.get('https://api.quotable.io/random')
-        if r.status_code == 200:
-            data = r.json()
-            quote = f'{data["content"]} ({data["author"]})'
-        else:
-            quote = 'I could not retrieve a quote at this time, sorry.'
-        msg.body(quote)
-        responded = True
-    if 'cat' in body:
-        # return a cat pic
-        msg.media('https://cataas.com/cat')
-        responded = True
+    if user_state == 'default': 
+        # Check whether the message matches a template
+        action = default_interactions.get(body)
+        # If message matches a template, change to corresponding state and set response
+        if (action):
+            edit_user(hp_no, action['state'])
+            msg.body(action['reply'])
+            responded = True
 
     #if user's message doesn't match any of the recognised responses
     if not responded:
@@ -47,5 +45,4 @@ def bot():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-    app.run(port=4000)
+        app.run(port=4000)
