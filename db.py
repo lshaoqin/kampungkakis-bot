@@ -45,7 +45,7 @@ class Message(db.Model):
 class User(db.Model):
    id = db.Column('user_id', db.Integer, primary_key = True)
    hp_no = db.Column(db.String(12)) 
-   state = db.column(db.String(50))
+   state = db.Column(db.String(50))
 
 
 with app.app_context():
