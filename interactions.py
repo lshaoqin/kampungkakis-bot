@@ -8,7 +8,7 @@ default_interactions = {
     "I am looking for a medical escort." : {'state': 'regular_kaki', 'reply': "Do you already have a regular kaki volunteer?"},
     "I am looking for assistance related to befriending." : {'state': 'regular_kaki', 'reply': "Do you already have a regular kaki volunteer?"},
     "I am looking for other help." : {'state': 'assistance', 'reply': "Could you share what other assistance you would require? We will do our best to look into it!"},
-    "I would like to find out more about upcoming events?" : {'state': 'default', 'reply': "Please refer to the following link (xx link) for our upcoming activities! Feel free to sign up at the respective sign up links."},
+    "I would like to find out more about upcoming events!" : {'state': 'default', 'reply': "Please refer to the following link (xx link) for our upcoming activities! Feel free to sign up at the respective sign up links."},
     "I would like to take up an ad-hoc volunteer request!" : {'state': 'response', 'reply': "Please share which ad-hoc request is this. A KampungKakis core team member will reach out to share more details about the request with you shortly."},
     "I would like to ask something related to my kaki!" : {'state': 'response', 'reply': "Please share the name of your kaki and the nature of your enquiry. We will get back to you shortly."},
     "I would like to find out more about the volunteer claims process!" : {'state': 'default', 'reply': "Please make your claims via our volunteer claims form - bit.ly/KK_claims2022 \nWe will verify your claim shortly and reimburse by the end of the month."},

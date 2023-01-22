@@ -1,7 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
-db = SQLAlchemy()
+app = Flask(__name__)
+db = SQLAlchemy(app)
+db.create_all()
 
 def init_db(app):
     db.init_app(app)
@@ -36,16 +38,6 @@ def edit_user(hp_no, new_state):
       return True
    return False
 
-class Message(db.Model):
-   id = db.Column('message_id', db.Integer, primary_key = True)
-   name = db.Column(db.String(100))
-   hp_no = db.Column(db.String(12))  
-   whatsapp_id = db.Column(db.String(30))
-   body = db.Column(db.String(5000))
 
-class User(db.Model):
-   id = db.Column('user_id', db.Integer, primary_key = True)
-   hp_no = db.Column(db.String(12)) 
-   state = db.Column(db.String(50))
 
 
